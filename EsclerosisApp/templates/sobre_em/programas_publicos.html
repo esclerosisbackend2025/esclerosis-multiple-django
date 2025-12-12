@@ -1,0 +1,157 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5 programas-section animate-fade-up">
+  <h2 class="fw-bold mb-4 titulo-seccion text-center">Programas y Beneficios Públicos</h2>
+
+  <!-- Introducción -->
+  <p class="texto-principal">
+    En Chile existen programas estatales que buscan mejorar el acceso a tratamientos, rehabilitación y apoyo
+    social para personas diagnosticadas con Esclerosis Múltiple (EM). Estas iniciativas fortalecen el vínculo
+    entre los pacientes, el sistema de salud y las redes de acompañamiento.
+  </p>
+
+  <p class="texto-principal">
+    Los beneficios disponibles permiten acceder a atención especializada, orientación social, subsidios,
+    programas de rehabilitación y plataformas que entregan información clave sobre derechos y cobertura.
+  </p>
+
+  <p class="texto-principal mb-5">
+    A continuación se presentan algunos de los programas más relevantes disponibles en el sistema público.
+  </p>
+
+
+  <!-- TARJETAS -->
+  <div class="row g-4">
+
+    <!-- GES -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-programa h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/programas/programa_ges_em.jpg' %}"
+               class="img-fluid rounded img-programa" alt="Programa GES EM">
+          <h4 class="mt-3 subtitulo">Programa GES para EM</h4>
+          <p class="texto-card">
+            Garantiza diagnóstico, atención neurológica, entrega de medicamentos y seguimiento médico continuo
+            para personas con EM bajo la cobertura estatal.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rehabilitación -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-programa h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/programas/rehabilitacion_publica_em.jpg' %}"
+               class="img-fluid rounded img-programa" alt="Rehabilitación pública EM">
+          <h4 class="mt-3 subtitulo">Rehabilitación en Centros Públicos</h4>
+          <p class="texto-card">
+            Programas de fisioterapia, terapia ocupacional y apoyo funcional en servicios de salud,
+            orientados a mantener movilidad, independencia y bienestar.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orientación social -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-programa h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/programas/orientacion_fonasa_em.jpg' %}"
+               class="img-fluid rounded img-programa" alt="Orientación social EM">
+          <h4 class="mt-3 subtitulo">Orientación Social y FONASA</h4>
+          <p class="texto-card">
+            Asistencia en postulación a beneficios, derivaciones a servicios sociales y orientación sobre
+            derechos, coberturas y trámites relacionados a la EM.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea de ayuda -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-programa h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/programas/linea_ayuda_em.jpg' %}"
+               class="img-fluid rounded img-programa" alt="Línea de apoyo">
+          <h4 class="mt-3 subtitulo">Líneas de Ayuda y Acompañamiento</h4>
+          <p class="texto-card">
+            Canales telefónicos y digitales que brindan apoyo emocional, orientación médica y acompañamiento
+            para pacientes y familias.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VIDEO EXPLICATIVO -->
+  <div class="text-center mt-5 animate-fade-up">
+    <div style="
+      max-width: 700px; 
+      margin: auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+    ">
+      <video width="100%" height="380" controls>
+        <source src="{% static 'videos/programas_beneficios_em.mp4' %}" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+    </div>
+    <p class="mt-2 text-muted">Video informativo sobre tratamiento de retención para personas con EM.</p>
+  </div>
+
+</div>
+
+
+<style>
+  .programas-section {
+    background: linear-gradient(to bottom, #E6E0C5, #D9D3B3);
+    border-radius: 20px;
+    padding: 50px;
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+  }
+
+  .texto-principal {
+    font-size: 17px;
+    color: #2B2B2B;
+    text-align: justify;
+    line-height: 1.8;
+  }
+
+  .tarjeta-programa {
+    background: #ffffffdd;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .img-programa {
+    border-radius: 12px;
+    width: 100%;
+    transition: transform .3s;
+  }
+
+  .img-programa:hover {
+    transform: scale(1.05);
+  }
+
+  .subtitulo {
+    color: #3F7F76;
+    font-weight: 700;
+  }
+
+  .texto-card {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+  }
+</style>
+
+{% endblock %}

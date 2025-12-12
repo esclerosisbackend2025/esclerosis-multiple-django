@@ -1,0 +1,365 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+<section class="container py-5 animate-fade-up">
+
+  <h1 class="fw-bold text-center mb-3" style="color:#2E6362;">Fundaciones y Grupos de Apoyo</h1>
+
+  <div class="text-center mb-4">
+    <a href="{% url 'crear_fundacion' %}" class="btn btn-outline-success px-4 py-2 fw-bold shadow-sm">
+      + Crear Fundación
+    </a>
+  </div>
+
+  <div class="container mb-5">
+    <h3 class="fw-bold text-center mb-3" style="color:#2E6362;">Explora el Mapa de Fundaciones</h3>
+    <div id="mapFundaciones" style="height: 480px; width: 100%; border-radius: 14px;"></div>
+  </div>
+
+<!-- ==========================================================
+     MAPA ELDEN RING / PINES / ANIMACIÓN FLYTO
+========================================================== -->
+<script>
+mapboxgl.accessToken = "pk.eyJ1IjoiZXNjbGVyb3Npc2luYWNhcCIsImEiOiJjbWh6aDk0aGUwb281Mm5xMG54ZXh2Mm10In0._kkCrgGUORzRm35o8KUrsw";
+
+const map = new mapboxgl.Map({
+  container: "mapFundaciones",
+  style: "mapbox://styles/esclerosisinacap/cmii6o4im001m01s6fbu584me",
+  center: [-70.6693, -33.4489],
+  zoom: 4.5
+});
+
+map.addControl(new mapboxgl.NavigationControl());
+
+// =========================================================
+//          PINS + POPUP + FLYTO POR FUNDACIÓN
+// =========================================================
+{% for f in fundaciones_aprobadas %}
+{% if f.lat and f.lng %}
+
+const lat{{ f.id }} = parseFloat("{{ f.lat }}".replace(",", "."));
+const lng{{ f.id }} = parseFloat("{{ f.lng }}".replace(",", "."));
+
+// PIN ELDEN RING
+const pin{{ f.id }} = document.createElement("div");
+pin{{ f.id }}.className = "pin-clean";
+
+const img{{ f.id }} = document.createElement("img");
+img{{ f.id }}.src = "{{ f.icono.url }}";
+pin{{ f.id }}.appendChild(img{{ f.id }});
+
+// POPUP SOULS
+const popup{{ f.id }} = new mapboxgl.Popup({ offset: 35 }).setHTML(`
+  <div class="popup-souls">
+    <h5>{{ f.nombre }}</h5>
+    <p>{{ f.ubicacion }}</p>
+    <button class="btn btn-success btn-sm w-100"
+      data-bs-toggle="modal"
+      data-bs-target="#modalUser{{ f.id }}">
+      Ver información
+    </button>
+  </div>
+`);
+
+const marker{{ f.id }} = new mapboxgl.Marker(pin{{ f.id }})
+  .setLngLat([lng{{ f.id }}, lat{{ f.id }}])
+  .setPopup(popup{{ f.id }})
+  .addTo(map);
+
+// FLYTO al tocar el pin
+pin{{ f.id }}.addEventListener("click", () => {
+  map.flyTo({
+    center: [lng{{ f.id }}, lat{{ f.id }}],
+    zoom: 14.5,
+    speed: 0.7,
+    curve: 1.4,
+    essential: true
+  });
+});
+
+{% endif %}
+{% endfor %}
+</script>
+<!-- ==========================================================
+     FIN MAPA
+========================================================== -->
+
+  <div class="row g-4 justify-content-center">
+
+    <!-- =========================================
+         FUNDACIONES OFICIALES (NO TOCO NADA)
+    ========================================= -->
+    <div class="col-md-4 col-sm-6">
+      <div class="glass-card" data-bs-toggle="modal" data-bs-target="#modal1">
+        <img src="{% static 'img/fundaciones/fundacion_decima.png' %}" class="glass-img">
+        <h5 class="mt-3 fw-bold text-center">Agrupación EM Décima Región</h5>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal1" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content premium-modal">
+          <div class="modal-header">
+            <h5 class="fw-bold">Agrupación EM Décima Región</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <img src="{% static 'img/fundaciones/fundacion_decima.png' %}" class="img-fluid mb-3">
+            <p>Apoyo emocional, talleres y actividades para pacientes en la región de Los Lagos.</p>
+            <ul>
+              <li><strong>Instagram:</strong> @esclerosismultipledecimaregion</li>
+              <li><strong>Facebook:</strong> Agrupación Décima Región EM</li>
+              <li><strong>Ubicación:</strong> Puerto Montt</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================
+         SIGUE TODO IGUAL
+    =============================== -->
+    <div class="col-md-4 col-sm-6">
+      <div class="glass-card" data-bs-toggle="modal" data-bs-target="#modal2">
+        <img src="{% static 'img/fundaciones/fundacion_araucania.png' %}" class="glass-img">
+        <h5 class="mt-3 fw-bold text-center">Corpem Araucanía</h5>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal2" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content premium-modal">
+          <div class="modal-header">
+            <h5 class="fw-bold">Corpem Araucanía</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <img src="{% static 'img/fundaciones/fundacion_araucania.png' %}" class="img-fluid mb-3">
+            <p>Acompañamiento, orientación y actividades para la comunidad EM de la Araucanía.</p>
+            <ul>
+              <li><strong>Instagram:</strong> @corpemaraucania</li>
+              <li><strong>Ubicación:</strong> Temuco</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================
+         TERCERA FUNDACIÓN OFICIAL
+    =============================== -->
+    <div class="col-md-4 col-sm-6">
+      <div class="glass-card" data-bs-toggle="modal" data-bs-target="#modal3">
+        <img src="{% static 'img/fundaciones/fundacion_nacional.png' %}" class="glass-img">
+        <h5 class="mt-3 fw-bold text-center">COEMCH</h5>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal3" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content premium-modal">
+          <div class="modal-header">
+            <h5 class="fw-bold">COEMCH</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <img src="{% static 'img/fundaciones/fundacion_nacional.png' %}" class="img-fluid mb-3">
+            <p>Corporación nacional dedicada a investigación, educación y apoyo en EM.</p>
+            <ul>
+              <li><strong>Sitio web:</strong> esclerosismultiplechile.cl</li>
+              <li><strong>Correo:</strong> contacto@coemch.cl</li>
+              <li><strong>Ubicación:</strong> Santiago</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================================================
+         FUNDACIONES APROBADAS POR USUARIOS
+    =================================================== -->
+    {% for f in fundaciones_aprobadas %}
+    <div class="col-md-4 col-sm-6">
+      <div class="glass-card" data-bs-toggle="modal" data-bs-target="#modalUser{{ f.id }}">
+        <img src="{{ f.icono.url }}" class="glass-img">
+        <h5 class="mt-3 fw-bold text-center">{{ f.nombre }}</h5>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalUser{{ f.id }}" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content premium-modal">
+          <div class="modal-header">
+            <h5 class="fw-bold">{{ f.nombre }}</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <img src="{{ f.icono.url }}" class="img-fluid mb-3">
+            <p>{{ f.descripcion }}</p>
+            <ul>
+              <li><strong>Ubicación:</strong> {{ f.ubicacion }}</li>
+              {% if f.instagram %}<li><strong>Instagram:</strong> {{ f.instagram }}</li>{% endif %}
+              {% if f.facebook %}<li><strong>Facebook:</strong> {{ f.facebook }}</li>{% endif %}
+              {% if f.tiktok %}<li><strong>TikTok:</strong> {{ f.tiktok }}</li>{% endif %}
+              {% if f.twitter %}<li><strong>Twitter (X):</strong> {{ f.twitter }}</li>{% endif %}
+              {% if f.sitio_web %}<li><strong>Sitio Web:</strong> <a href="{{ f.sitio_web }}" target="_blank">{{ f.sitio_web }}</a></li>{% endif %}
+            </ul>
+          </div>
+
+          {% if es_admin %}
+          <div class="modal-footer">
+            <a href="{% url 'rechazar_fundacion' f.id %}" class="btn btn-danger">✖ Eliminar</a>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+
+  <!-- ==================================================
+       FUNDACIONES PENDIENTES (ADMIN)
+  =================================================== -->
+  {% if fundaciones_pendientes %}
+  <hr class="my-4">
+  <h3 class="text-center mt-4" style="color:#2E6362;">Solicitudes enviadas por usuarios</h3>
+  <div class="row g-4 mt-3">
+    {% for f in fundaciones_pendientes %}
+    <div class="col-md-4">
+      <div class="card shadow-sm fund-card p-3 text-center"
+           style="border-radius:16px; cursor:pointer;"
+           data-bs-toggle="modal"
+           data-bs-target="#modalSolicitud{{ f.id }}">
+        <img src="{{ f.icono.url }}" class="card-img-top mx-auto"
+             style="height:160px; width:160px; object-fit:cover; border-radius:50%;">
+        <div class="card-body">
+          <h5 class="fw-bold">{{ f.nombre }}</h5>
+          <p class="text-muted">{{ f.ubicacion }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modalSolicitud{{ f.id }}" tabindex="-1">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content premium-modal">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ f.nombre }}</h5>
+            <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4 text-center">
+                <img src="{{ f.icono.url }}" style="width:180px; height:180px; border-radius:50%; object-fit:cover;">
+              </div>
+              <div class="col-md-8">
+                <p><strong>Descripción:</strong></p>
+                <p>{{ f.descripcion }}</p>
+                <p><strong>Ubicación:</strong> {{ f.ubicacion }}</p>
+                {% if f.sitio_web %}<p><strong>Sitio Web:</strong> <a href="{{ f.sitio_web }}" target="_blank">{{ f.sitio_web }}</a></p>{% endif %}
+                {% if f.instagram %}<p><strong>Instagram:</strong> <a href="{{ f.instagram }}" target="_blank">{{ f.instagram }}</a></p>{% endif %}
+                {% if f.facebook %}<p><strong>Facebook:</strong> <a href="{{ f.facebook }}" target="_blank">{{ f.facebook }}</a></p>{% endif %}
+                {% if f.tiktok %}<p><strong>TikTok:</strong> <a href="{{ f.tiktok }}" target="_blank">{{ f.tiktok }}</a></p>{% endif %}
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <a href="{% url 'aprobar_fundacion' f.id %}" class="btn btn-success">✔ Aprobar</a>
+            <a href="{% url 'rechazar_fundacion' f.id %}" class="btn btn-danger">✖ Rechazar</a>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+
+<style>
+  .glass-card {
+    background: rgba(255,255,255,0.6);
+    backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    box-shadow: 0 0 15px rgba(0,0,0,0.12);
+  }
+  .glass-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px rgba(0,0,0,0.2);
+  }
+  .glass-img {
+    height: 180px;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+  }
+
+  .pin-souls {
+    width: 60px;
+    height: 70px;
+    background: linear-gradient(180deg, #D4AF37, #6E5520);
+    border: 2px solid #2B2515;
+    border-radius: 50% 50% 40% 40%;
+    box-shadow: 0 0 15px rgba(0,0,0,0.6);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: bottom center;
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  .pin-souls:hover {
+    transform: scale(1.12);
+  }
+  .pin-souls img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid #1d1a12;
+    object-fit: cover;
+  }
+  .pin-souls::after {
+    content: "";
+    position: absolute;
+    bottom: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 24px solid #D4AF37;
+  }
+
+  .popup-souls {
+    background: #2a2417;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #4b3f26;
+    color: #f8e8c0;
+    font-family: "Garamond", serif;
+  }
+  .mapboxgl-popup-content {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+  .mapboxgl-popup-tip {
+    border-top-color: #2a2417 !important;
+  }
+
+</style>
+
+{% endblock %}

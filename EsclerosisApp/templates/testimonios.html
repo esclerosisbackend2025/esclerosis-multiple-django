@@ -1,0 +1,211 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+{% load user_groups %}  
+
+{% block content %}
+
+{% if request.user.is_authenticated %}
+  <p class="text-center text-success">
+    Estás logeado como: <strong>{{ request.user.username }}</strong>
+    
+    <!-- Mostrar estado basado en pertenencia al grupo -->
+    {% if request.user|has_group:"Administradores" %}
+      (Administrador)
+    {% else %}
+      (Usuario normal)
+    {% endif %}
+  </p>
+{% else %}
+  <p class="text-center text-danger">No has iniciado sesión.</p>
+{% endif %}
+
+
+<div class="container my-5 testimonios-section animate-fade-up">
+
+  <!-- -------------------- Título -------------------- -->
+  <h2 class="text-center fw-bold titulo-seccion">Testimonios de Personas con Esclerosis Múltiple</h2>
+  <p class="text-center texto-intro">
+    Aquí encontrarás experiencias compartidas por personas diagnosticadas con Esclerosis Múltiple en Chile.  
+    Puedes buscar, ordenar o compartir el tuyo.
+  </p>
+
+  <!-- -------------------- Mensajes -------------------- -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <!-- -------------------- Buscador y filtros -------------------- -->
+  <form method="get" class="text-center mb-4">
+    <div class="d-flex justify-content-center gap-2 flex-wrap">
+      <input 
+        type="text" 
+        name="q" 
+        value="{{ busqueda }}" 
+        class="form-control w-auto"
+        placeholder="Buscar por título..."
+      >
+
+      <button type="submit" class="btn btn-hero-calida">Buscar</button>
+
+      {% if orden == 'az' %}
+        <a href="?{% if busqueda %}q={{ busqueda }}&{% endif %}orden=za" class="btn btn-outline-secondary">
+          Ordenar Z–A
+        </a>
+      {% else %}
+        <a href="?{% if busqueda %}q={{ busqueda }}&{% endif %}orden=az" class="btn btn-outline-secondary">
+          Ordenar A–Z
+        </a>
+      {% endif %}
+    </div>
+  </form>
+
+  <!-- -------------------- Botón para agregar testimonio ---------------------->
+  <div class="text-center mb-4">
+    <a href="{% url 'crear_testimonio' %}" class="btn btn-hero-calida shadow-sm">
+      Compartir mi testimonio
+    </a>
+  </div>
+
+  <!-- -------------------- Listado ---------------------->
+  {% if testimonios %}
+    <div class="row g-4">
+      {% for t in testimonios %}
+      <div class="col-md-6 col-lg-4 animate-fade-up">
+        <div class="card testimonio-card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ t.titulo }}</h5>
+            <p class="fw-semibold mb-1">{{ t.nombre_publico }}</p>
+            <p class="card-text fecha">
+              Publicado el {{ t.fecha_envio|date:"d \d\e F \d\e Y" }}
+            </p>
+            <p class="card-text">{{ t.mensaje }}</p>
+          </div>
+          <div class="card-footer text-center bg-transparent border-0">
+            
+            {% with user_profile=request.user.profile %}
+                
+                {# Lógica de VISIBILIDAD DE EDITAR #}
+                {% if request.user.is_authenticated %}
+                    {% if user_profile.rut == t.rut %}
+                        <a href="{% url 'verificar_rut_editar' t.id %}" class="btn btn-outline-success btn-sm me-2">Editar</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'verificar_rut_editar' t.id %}" class="btn btn-outline-success btn-sm me-2">Editar</a>
+                {% endif %}
+                
+                
+                {# Lógica de VISIBILIDAD DE ELIMINAR #}
+                {% if request.user.is_authenticated %}
+                    {% if request.user|has_group:"Administradores" %}
+                        <!-- ADMINISTRADOR: Acceso directo a la eliminación -->
+                        <a href="{% url 'eliminar_testimonio_admin' t.id %}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    {% elif user_profile.rut == t.rut %}
+                        <!-- DUEÑO: Usa la ruta de eliminación directa para dueños -->
+                        <a href="{% url 'eliminar_testimonio_dueno' t.id %}" class="btn btn-outline-danger btn-sm">Eliminar</a>
+                    {% endif %}
+                {% endif %}
+                
+            {% endwith %}
+
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center mt-5" role="alert">
+      Aún no hay testimonios. ¡Sé la primera persona en compartir tu experiencia!
+    </div>
+  {% endif %}
+</div>
+
+<!-- -------------------- Estilos ---------------------->
+<style>
+  .testimonios-section {
+    background: linear-gradient(to bottom, #E6E0C5 0%, #D9D3B3 100%);
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    padding: 50px;
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+    margin-bottom: 25px;
+  }
+
+  .texto-intro {
+    color: #444;
+    max-width: 750px;
+    margin: 0 auto 40px auto;
+    line-height: 1.7;
+  }
+
+  .btn-hero-calida {
+    background-color: #E67E22;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px 25px;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .btn-hero-calida:hover {
+    background-color: #CF6916;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.6);
+  }
+
+  .testimonio-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+  }
+
+  .testimonio-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  }
+
+  .card-title {
+    color: #2E6362;
+    font-weight: 700;
+  }
+
+  .fecha {
+    color: #6c757d;
+    font-size: 0.9rem;
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(25px);
+    animation: fadeUp 0.9s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .testimonios-section {
+      padding: 25px;
+    }
+    .texto-intro {
+      font-size: 16px;
+    }
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,223 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ==========================
+     MATERIAL EDUCATIVO Y RECURSOS
+========================== -->
+<div class="container py-5 material-section animate-fade-up">
+
+  <h2 class="fw-bold mb-4 titulo-seccion text-center">Material Educativo y Recursos</h2>
+
+  <!-- INTRODUCCIÓN -->
+  <p class="texto-principal animate-fade-up">
+    En esta sección encontrarás material confiable y actualizado sobre la Esclerosis Múltiple, incluyendo guías,
+    infografías, folletos, recursos descargables y enlaces importantes. Todo está pensado para pacientes, familias,
+    cuidadores y profesionales de la salud que buscan información clara y accesible.
+  </p>
+
+  <!-- TARJETAS DE RECURSOS -->
+  <div class="row g-4 mt-4">
+
+    <!-- Guías y folletos -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-recurso h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/recursos/guia_em_recursos.jpg' %}"
+               class="img-fluid rounded img-recurso" alt="Guías sobre EM">
+          <h4 class="mt-3 subtitulo">Guías y Folletos Informativos</h4>
+          <p class="texto-card">
+            Este material reúne folletos educativos, guías de manejo, recomendaciones de autocuidado y orientaciones para
+            comprender mejor la Esclerosis Múltiple. En ellos se explican los síntomas más frecuentes, las etapas de la
+            enfermedad, las opciones terapéuticas disponibles y consejos prácticos para el día a día. Son recursos útiles tanto
+            para pacientes recién diagnosticados como para familiares, cuidadores y quienes buscan una primera aproximación
+            clara y confiable sobre la EM.
+
+            Además, estos documentos suelen incluir información sobre hábitos saludables que pueden favorecer el bienestar,
+            como técnicas para manejar la fatiga, pautas de alimentación, ejercicios recomendados y estrategias emocionales
+            para enfrentar momentos de estrés o incertidumbre. También orientan respecto a cómo prepararse para consultas
+            médicas, qué preguntas hacer al neurólogo y cómo entender los resultados de exámenes comunes utilizados en el
+            diagnóstico y seguimiento de la enfermedad. Gracias a su formato claro y accesible, este material se convierte en un
+            apoyo fundamental para acompañar el proceso de aprendizaje y adaptación de quienes conviven con la Esclerosis
+            Múltiple.
+
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Infografías -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-recurso h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/recursos/infografia_em_recursos.jpg' %}"
+               class="img-fluid rounded img-recurso" alt="Infografías EM">
+          <h4 class="mt-3 subtitulo">Infografías Educativas</h4>
+          <p class="texto-card">
+            Material visual que simplifica conceptos como desmielinización, tipos de EM y evolución de la enfermedad,
+            facilitando la comprensión rápida.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charlas educativas -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-recurso h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/recursos/charla_em_recursos.jpg' %}"
+               class="img-fluid rounded img-recurso" alt="Charlas EM">
+          <h4 class="mt-3 subtitulo">Charlas y Presentaciones</h4>
+          <p class="texto-card">
+            Contenido realizado por especialistas que explica la enfermedad, el diagnóstico y los avances en
+            tratamientos. Útil para profundizar en aspectos médicos y clínicos.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Material digital + descarga PDF -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-recurso h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/recursos/material_digital_em_recursos.jpg' %}"
+               class="img-fluid rounded img-recurso" alt="Material digital EM">
+          <h4 class="mt-3 subtitulo">Material Digital y Plataformas</h4>
+          <p class="texto-card">
+            Descarga recursos digitales, revisa contenido oficial y accede a documentos completos. Incluimos
+            la guía oficial del Ministerio de Salud de Chile, un documento fundamental para comprender el manejo
+            clínico de la EM.
+          </p>
+
+          <!-- Botón de descarga -->
+          <a href="{% static 'pdf/guia_em_minsal.pdf' %}" 
+             download class="btn-descarga mt-2">
+             📘 Descargar Guía Oficial del MINSAL (PDF)
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ENLACES RECOMENDADOS -->
+  <h4 class="mt-5 subtitulo text-center animate-fade-up">Enlaces Recomendados</h4>
+
+  <ul class="lista-recursos animate-fade-up">
+    <li>
+      <a href="https://www.msif.org/" class="enlace-recurso" target="_blank">
+        Federación Internacional de Esclerosis Múltiple (MSIF)
+      </a>
+    </li>
+    <li>
+      <a href="https://www.who.int/es/news-room/fact-sheets/detail/multiple-sclerosis"
+         class="enlace-recurso" target="_blank">
+         Organización Mundial de la Salud – Ficha Informativa sobre EM
+      </a>
+    </li>
+  </ul>
+
+  <!-- VIDEO EDUCATIVO -->
+  <div class="text-center mt-5 animate-fade-up">
+    <div style="
+      max-width: 700px;
+      margin: auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 4px 10px rgba(0,0,0,0.25);
+    ">
+      <video width="100%" height="380" controls>
+        <source src="{% static 'videos/material_educativo_em.mp4' %}" type="video/mp4">
+        Tu navegador no soporta videos HTML5.
+      </video>
+    </div>
+    <p class="mt-2 text-muted">Video educativo sobre Esclerosis Múltiple.</p>
+  </div>
+
+</div>
+
+
+<!-- ==========================
+     ESTILOS
+========================== -->
+<style>
+  .material-section {
+    background: linear-gradient(to bottom, #E6E0C5, #D9D3B3);
+    border-radius: 20px;
+    padding: 50px;
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+  }
+
+  .texto-principal {
+    font-size: 17px;
+    color: #2B2B2B;
+    text-align: justify;
+    line-height: 1.8;
+  }
+
+  .tarjeta-recurso {
+    background: #ffffffdd;
+    border-radius: 15px;
+    padding: 15px;
+  }
+
+  .img-recurso {
+    border-radius: 12px;
+    width: 100%;
+    transition: transform .3s;
+  }
+
+  .img-recurso:hover {
+    transform: scale(1.05);
+  }
+
+  .subtitulo {
+    color: #3F7F76;
+    font-weight: 700;
+  }
+
+  .texto-card {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #444;
+  }
+
+  .lista-recursos li {
+    margin-bottom: 10px;
+  }
+
+  .enlace-recurso {
+    color: #2E6362;
+    text-decoration: none;
+    border-bottom: 2px solid #2E6362;
+    font-weight: 600;
+    transition: 0.3s;
+  }
+
+  .enlace-recurso:hover {
+    color: #E67E22;
+    border-color: #E67E22;
+  }
+
+  .btn-descarga {
+    background-color: #2E6362;
+    color: white;
+    padding: 10px 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s ease;
+  }
+
+  .btn-descarga:hover {
+    background-color: #E67E22;
+    color: white;
+  }
+</style>
+
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'layout_esclerosis.html' %}
+{% load user_groups %}  
+{% block content %}
+
+<div class="container mt-5 text-center" style="max-width: 600px;">
+    <h2 class="mb-4 text-danger">Confirmar Eliminación</h2>
+    <p class="lead">¿Estás seguro de que deseas eliminar el testimonio titulado:</p>
+    <p class="fw-bold fs-5">{{ testimonio.titulo }}</p>
+    
+    <div class="alert alert-warning">
+        Esta acción es irreversible.
+    </div>
+    
+    {% comment %} 
+    La forma más segura de definir una variable condicionalmente en DTL
+    es renderizar el bloque del formulario dentro de las ramas del IF, 
+    usando {% with %} para establecer la URL_NAME correcta.
+    {% endcomment %}
+
+    {% if request.user|has_group:"Administradores" %}
+        {% with url_name='eliminar_testimonio_admin' %}
+            <form method="post" action="{% url url_name testimonio.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger me-3">Sí, Eliminar Permanentemente</button>
+            </form>
+        {% endwith %}
+    {% else %}
+        {% with url_name='eliminar_testimonio_dueno' %}
+            <form method="post" action="{% url url_name testimonio.id %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger me-3">Sí, Eliminar Permanentemente</button>
+            </form>
+        {% endwith %}
+    {% endif %}
+    
+    <a href="{% url 'testimonios' %}" class="btn btn-secondary">Cancelar</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,226 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    /* Foto circular */
+    .foto-preview {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 3px solid #2E6362;
+        object-fit: cover;
+        background: #f0f0f0;
+    }
+
+    /* Alinear mejor el título */
+    .titulo-form {
+        margin-top: 40px !important;
+        margin-bottom: 25px !important;
+    }
+
+    /* Contenedor principal */
+    .form-box {
+        background: white;
+        padding: 35px;
+        border-radius: 12px;
+        box-shadow: 0px 0px 12px rgba(0,0,0,0.08);
+    }
+</style>
+
+<section class="container titulo-form">
+    <h2 class="fw-bold text-center" style="color:#2E6362;">
+        Crear Fundación o Agrupación
+    </h2>
+</section>
+
+<section class="container" style="max-width: 1100px;">
+
+    <form method="post" enctype="multipart/form-data" class="form-box">
+        {% csrf_token %}
+
+        <div class="row g-4">
+
+            <!-- FOTO CIRCULAR -->
+            <div class="col-md-3 text-center">
+
+                <img id="previewFoto" class="foto-preview mb-2">
+
+                <label class="form-label fw-bold mt-2">Logo / Imagen</label>
+                {{ form.icono }}
+            </div>
+
+            <!-- NOMBRE + DESCRIPCIÓN -->
+            <div class="col-md-9">
+                <label class="form-label fw-bold">Nombre de la Fundación o Agrupación</label>
+                {{ form.nombre }}
+
+                <label class="form-label fw-bold mt-3">Descripción (máx 500 caracteres)</label>
+                {{ form.descripcion }}
+            </div>
+
+            <!-- UBICACIÓN -->
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Ubicación / Dirección</label>
+                {{ form.ubicacion }}
+            </div>
+
+            <!-- MAPA -->
+            <div class="col-md-12 mt-2">
+                <label class="form-label fw-bold">Selecciona la ubicación en el mapa</label>
+
+                <div id="map"
+                     style="height:350px; border-radius:12px; overflow:hidden; margin-bottom:10px;">
+                </div>
+
+                <input type="hidden" id="lat" name="latitud">
+                <input type="hidden" id="lng" name="longitud">
+            </div>
+
+            <!-- SITIO WEB -->
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Sitio Web (opcional)</label>
+                {{ form.sitio_web }}
+            </div>
+
+            <!-- REDES SOCIALES -->
+            <div class="col-md-12">
+                <label class="form-label fw-bold">Redes Sociales</label>
+
+                <div style="margin-left:15px;">
+
+                    <!-- Instagram -->
+                    <div class="d-flex align-items-center mt-2">
+                        <input type="checkbox" id="chk_instagram" class="form-check-input me-2">
+                        <label class="form-check-label me-3">Instagram</label>
+                        <input type="text" id="input_instagram"
+                               name="instagram"
+                               class="form-control"
+                               placeholder="@usuario"
+                               style="max-width:250px; display:none;">
+                    </div>
+
+                    <!-- Facebook -->
+                    <div class="d-flex align-items-center mt-2">
+                        <input type="checkbox" id="chk_facebook" class="form-check-input me-2">
+                        <label class="form-check-label me-3">Facebook</label>
+                        <input type="text" id="input_facebook"
+                               name="facebook"
+                               class="form-control"
+                               placeholder="facebook.com/..."
+                               style="max-width:250px; display:none;">
+                    </div>
+
+                    <!-- TikTok -->
+                    <div class="d-flex align-items-center mt-2">
+                        <input type="checkbox" id="chk_tiktok" class="form-check-input me-2">
+                        <label class="form-check-label me-3">TikTok</label>
+                        <input type="text" id="input_tiktok"
+                               name="tiktok"
+                               class="form-control"
+                               placeholder="@usuario"
+                               style="max-width:250px; display:none;">
+                    </div>
+
+                    <!-- Twitter/X -->
+                    <div class="d-flex align-items-center mt-2">
+                        <input type="checkbox" id="chk_twitter" class="form-check-input me-2">
+                        <label class="form-check-label me-3">Twitter (X)</label>
+                        <input type="text" id="input_twitter"
+                               name="twitter"
+                               class="form-control"
+                               placeholder="@usuario"
+                               style="max-width:250px; display:none;">
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- BOTÓN -->
+            <div class="col-12 text-center mt-4">
+                <button type="submit" class="btn btn-success px-4 py-2"
+                        style="font-size:18px; background:#2E6362; border:none;">
+                    Enviar para Revisión
+                </button>
+            </div>
+
+        </div>
+    </form>
+
+</section>
+
+
+<!-- PREVIEW DE IMAGEN -->
+<script>
+    document.getElementById("id_icono").addEventListener("change", function(event){
+        const file = event.target.files[0];
+        const preview = document.getElementById("previewFoto");
+
+        if (file){
+            preview.src = URL.createObjectURL(file);
+        } else {
+            preview.src = "";
+        }
+    });
+</script>
+
+<!-- MAPBOX -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+
+<script>
+    mapboxgl.accessToken = "pk.eyJ1IjoiZXNjbGVyb3Npc2luYWNhcCIsImEiOiJjbWh6aDk0aGUwb281Mm5xMG54ZXh2Mm10In0._kkCrgGUORzRm35o8KUrsw";
+
+    const map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/esclerosisinacap/cmii6o4im001m01s6fbu584me",
+        projection: "mercator",
+        center: [-70.6506, -33.4372],
+        zoom: 12
+    });
+
+    let marker = null;
+
+    async function obtenerDireccion(lng, lat) {
+        const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${lng},${lat}.json?access_token=${mapboxgl.accessToken}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.features.length > 0) return data.features[0].place_name;
+        return "Dirección no encontrada";
+    }
+
+    map.on("click", async (e) => {
+        const lat = e.lngLat.lat;
+        const lng = e.lngLat.lng;
+
+        document.getElementById("lat").value = lat;
+        document.getElementById("lng").value = lng;
+
+        const direccion = await obtenerDireccion(lng, lat);
+        document.getElementById("id_ubicacion").value = direccion;
+
+        if (marker) marker.setLngLat([lng, lat]);
+        else {
+            marker = new mapboxgl.Marker({ color: "#2E6362" })
+                .setLngLat([lng, lat])
+                .addTo(map);
+        }
+    });
+
+    // Mostrar inputs según checkbox
+    const redes = [
+        ["chk_instagram", "input_instagram"],
+        ["chk_facebook", "input_facebook"],
+        ["chk_tiktok", "input_tiktok"],
+        ["chk_twitter", "input_twitter"],
+    ];
+
+    redes.forEach(([chk, input]) => {
+        document.getElementById(chk).addEventListener("change", function () {
+            document.getElementById(input).style.display = this.checked ? "block" : "none";
+        });
+    });
+</script>
+
+{% endblock %}

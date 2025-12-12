@@ -1,0 +1,210 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ----- CARRUSEL ----- -->
+<section class="carousel-fullwidth animate-fade-up">
+  <div id="carruselEM" class="carousel slide" data-bs-interval="6000" data-bs-ride="carousel">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="{% static 'img/carrusel/carrusel1.jpg' %}" class="d-block w-100 carrusel-img">
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'img/carrusel/carrusel2.jpg' %}" class="d-block w-100 carrusel-img">
+        <div class="slide-caption-wrapper text-end">
+          <div class="slide-caption-title">Entendamos la EM</div>
+          <a href="#video-explicativo" class="slide-caption-button">Ver video explicativo</a>
+        </div>
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'img/carrusel/carrusel3.jpg' %}" class="d-block w-100 carrusel-img">
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carruselEM" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carruselEM" data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button>
+  </div>
+</section>
+
+
+
+<!-- ----- Banner Qué es la EM ----- -->
+<section class="container mt-5 animate-fade-up">
+  <div class="p-5 rounded-4 shadow-lg text-center"
+       style="background: linear-gradient(145deg, #6CAFA0, #8FD2B7); color:#1F3F38;">
+    
+    <h2 class="mb-3 fw-bold" style="font-size:2rem;">¿Qué es la Esclerosis Múltiple?</h2>
+
+    <p class="mb-4" style="max-width:700px;margin:auto;font-size:1.1rem;">
+      Aprende de forma clara qué es la Esclerosis Múltiple, cómo se diagnostica y qué apoyos existen en Chile.
+    </p>
+
+    <a href="{% url 'que_es_em' %}" class="btn btn-hero halo-hover shadow-sm" style="font-size:1rem;">
+      Conoce más
+    </a>
+  </div>
+</section>
+
+
+
+<!-- ----- VIDEO LOCAL ----- -->
+<section id="video-explicativo" class="container my-5 animate-fade-up" style="scroll-margin-top:140px;">
+  <div class="p-5 rounded-4 shadow-lg video-box">
+    <h3 class="text-center mb-4 fw-bold" style="color:#1F3F38;">Video explicativo sobre la Esclerosis Múltiple</h3>
+
+    <div style="max-width:850px;margin:auto;">
+      <video controls class="video-em" preload="metadata"
+             style="width:100%; border-radius:12px; box-shadow:0 6px 20px rgba(0,0,0,0.15);">
+        <source src="{% static 'videos/explicativo_em.mp4' %}" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ============MAPA PREVIEW================= -->
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.css" rel="stylesheet">
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.3.0/mapbox-gl.js"></script>
+
+<section class="container my-5 animate-fade-up">
+
+  <h3 class="fw-bold text-center mb-3" style="color:#2E6362;">
+    Ubicación rápida de fundaciones en Chile
+  </h3>
+
+  <p class="text-center mb-4" style="font-size:1.1rem; color:#355C7D;">
+    Presiona cualquier punto para ver todas las fundaciones disponibles.
+  </p>
+
+  <div id="mapPreview" style="
+       height: 450px;
+       width: 100%;
+       border-radius: 14px;
+       box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+  </div>
+
+</section>
+
+<script>
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiZXNjbGVyb3Npc2luYWNhcCIsImEiOiJjbWh6aDk0aGUwb281Mm5xMG54ZXh2Mm10In0._kkCrgGUORzRm35o8KUrsw";
+
+const mapPreview = new mapboxgl.Map({
+  container: "mapPreview",
+  style: "mapbox://styles/esclerosisinacap/cmii6o4im001m01s6fbu584me",
+  center: [-70.6693, -33.4489],
+  zoom: 4.4,
+  interactive: true,
+});
+
+mapPreview.addControl(new mapboxgl.NavigationControl());
+
+
+// ======= Ajuste dinámico de tamaño =======
+const baseSize = 40; // tamaño real de tus puntos
+const minSize = 32;
+const maxSize = 55;
+
+function adjustPinSize() {
+  const z = mapPreview.getZoom();
+  let newSize = baseSize + (z - 4.4) * 4;
+  newSize = Math.max(minSize, Math.min(maxSize, newSize));
+
+  document.querySelectorAll(".miniPin").forEach((pin) => {
+    pin.style.width = newSize + "px";
+    pin.style.height = newSize + "px";
+  });
+}
+
+mapPreview.on("zoom", adjustPinSize);
+
+
+// ======= Pines en el mapa =======
+{% for f in fundaciones_preview %}
+{% if f.lat and f.lng %}
+
+const pinPrev{{ f.id }} = document.createElement("div");
+pinPrev{{ f.id }}.className = "miniPin";
+
+pinPrev{{ f.id }}.style.width = baseSize + "px";
+pinPrev{{ f.id }}.style.height = baseSize + "px";
+pinPrev{{ f.id }}.style.border = "3px solid #3C6E71";
+pinPrev{{ f.id }}.style.borderRadius = "50%";
+pinPrev{{ f.id }}.style.overflow = "hidden";
+pinPrev{{ f.id }}.style.boxShadow = "0 0 10px rgba(0,0,0,0.35)";
+pinPrev{{ f.id }}.style.cursor = "pointer";
+pinPrev{{ f.id }}.style.background = "#ffffff";
+
+const imgPrev{{ f.id }} = document.createElement("img");
+imgPrev{{ f.id }}.src = "{{ f.icono.url }}";
+imgPrev{{ f.id }}.style.width = "100%";
+imgPrev{{ f.id }}.style.height = "100%";
+imgPrev{{ f.id }}.style.objectFit = "cover";
+
+pinPrev{{ f.id }}.appendChild(imgPrev{{ f.id }});
+
+// redirige al mapa principal
+pinPrev{{ f.id }}.addEventListener("click", () => {
+  window.location.href = "{% url 'fundaciones' %}";
+});
+
+new mapboxgl.Marker(pinPrev{{ f.id }})
+  .setLngLat([
+    parseFloat("{{ f.lng }}".replace(",", ".")),
+    parseFloat("{{ f.lat }}".replace(",", ".")),
+  ])
+  .addTo(mapPreview);
+
+{% endif %}
+{% endfor %}
+</script>
+
+
+<!-- ----- TARJETAS ----- -->
+<section class="container my-5 seccion-informativa animate-fade-up">
+  <div class="row g-4">
+
+    <div class="col-md-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Fundaciones de apoyo</h5>
+          <p class="card-text text-muted">Conoce las organizaciones que apoyan a pacientes con EM en Chile.</p>
+          <a href="{% url 'fundaciones' %}" class="btn btn-outline-primary halo-hover">Ver fundaciones</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Historias reales</h5>
+          <p class="card-text text-muted">Testimonios de personas diagnosticadas con EM.</p>
+          <a href="{% url 'testimonios' %}" class="btn btn-outline-primary halo-hover">Leer testimonios</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 text-center">
+        <div class="card-body">
+          <h5 class="card-title">Recursos educativos</h5>
+          <p class="card-text text-muted">Material educativo y guías sobre la EM en Chile.</p>
+          <a href="{% url 'recursos' %}" class="btn btn-outline-primary halo-hover">Explorar recursos</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

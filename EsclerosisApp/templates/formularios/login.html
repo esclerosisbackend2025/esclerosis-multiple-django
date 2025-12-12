@@ -1,0 +1,87 @@
+{% extends 'layout_esclerosis.html' %}
+{% block content %}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Iniciar sesión</h2>
+
+  <!-- Mantenemos el bloque de error original del login, 
+       ya que es bueno para errores generales (ej. "usuario o pass incorrecto") -->
+  {% if form.errors %}
+    <div class="alert alert-danger text-center">
+      Usuario o contraseña incorrectos.
+    </div>
+  {% endif %}
+
+  <!-- Mensajes generales (opcional, pero unifica la estructura) -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} text-center" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" class="mx-auto" style="max-width: 400px;">
+    {% csrf_token %}
+    
+    <!-- ESTRUCTURA ADAPTADA: Bucle para renderizar campos como en el registro -->
+    {% for field in form %}
+      <div class="mb-3">
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+        <!-- Mostrar errores específicos del campo (si los hubiera) -->
+        {% for error in field.errors %}
+          <p class="text-danger small">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endfor %}
+    
+    <div class="text-center">
+      <button type="submit" class="btn btn-hero-calida">Entrar</button>
+    </div>
+  </form>
+
+  <!-- Enlaces de navegación -->
+  <div class="text-center mt-3">
+    
+    <!-- Enlace de registro de usuario normal -->
+    <p>
+      ¿No tienes cuenta? 
+      <a href="{% url 'registro_usuario' %}" class="btn btn-sm btn-outline-secondary">Regístrate aquí</a>
+    </p>
+
+    <!-- NUEVO BOTÓN: Registro de Administrador -->
+    <p>
+      <a href="{% url 'registro_admin' %}" class="btn btn-sm btn-outline-danger">Registrar Administrador</a>
+    </p>
+    
+    <!-- Enlace para volver al inicio -->
+    <a href="{% url 'inicio' %}" class="mt-2 d-block">Volver al inicio</a>
+  </div>
+</div>
+
+<!-- ESTILOS ADAPTADOS: Copiados del formulario de registro -->
+<style>
+  /* Estilo para que los inputs se vean bien. 
+     Añadimos #id_password a la lista. 
+  */
+  #id_username, #id_password, #id_password1, #id_password2 {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+  }
+  
+  .btn-hero-calida {
+    background-color: #E67E22;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    padding: 10px 25px;
+  }
+</style>
+
+{% endblock %}

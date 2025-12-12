@@ -1,0 +1,172 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ==========================
+     SECCIÓN DIAGNÓSTICO
+=========================== -->
+<section class="container my-5 diagnostico-section animate-fade-up">
+
+  <!-- TÍTULO PRINCIPAL -->
+  <h2 class="text-center mb-4 fw-bold titulo-seccion">
+    Diagnóstico de la Esclerosis Múltiple
+  </h2>
+
+  <!-- INTRODUCCIÓN -->
+  <p class="intro-text animate-fade-up">
+    El diagnóstico de la Esclerosis Múltiple (EM) requiere una evaluación clínica detallada realizada por un
+    neurólogo, junto con exámenes complementarios que confirmen la presencia de lesiones en el sistema nervioso
+    central. En esta sección encontrarás los exámenes más utilizados para confirmar la enfermedad y distinguirla
+    de otras patologías neurológicas.
+  </p>
+
+  <hr class="my-4">
+
+  <!-- ==========================
+       RESONANCIA MAGNÉTICA
+  =========================== -->
+<h4 class="subtitulo mt-4 animate-fade-up">Resonancia Magnética</h4>
+
+<div class="row align-items-center my-4 seccion-examen animate-fade-up">
+  <div class="col-md-5 mb-3 mb-md-0">
+    <div class="card shadow-sm border-0 rounded imagen-card">
+      <div class="card-body text-center">
+        <img 
+          src="{% static 'img/sobre_em/diagnostico/diagnostico1.jpg' %}" 
+          alt="Resonancia Magnética"
+          class="img-fluid rounded diagnostico-img"
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <p>
+      Es el examen principal para el estudio de la EM, ya que permite visualizar lesiones desmielinizantes en el
+      cerebro y la médula espinal. Estas lesiones aparecen como zonas de inflamación o daño en la mielina,
+      y ayudan a confirmar el diagnóstico junto con la historia clínica del paciente.
+    </p>
+  </div>
+</div>
+
+  <!-- ==========================
+       PUNCIÓN LUMBAR
+  =========================== -->
+<h4 class="subtitulo mt-4 animate-fade-up">Punción Lumbar</h4>
+
+<div class="row align-items-center my-4 seccion-examen flex-row-reverse animate-fade-up">
+  <div class="col-md-5 mb-3 mb-md-0">
+    <div class="card shadow-sm border-0 rounded imagen-card">
+      <div class="card-body text-center">
+        <img 
+          src="{% static 'img/sobre_em/diagnostico/diagnostico2.jpg' %}" 
+          alt="Punción Lumbar"
+          class="img-fluid rounded diagnostico-img"
+        >
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-7">
+    <p>
+      Este procedimiento consiste en extraer una pequeña muestra de líquido cefalorraquídeo (LCR)
+      para analizar la presencia de bandas oligoclonales, un marcador inmunológico que confirma la
+      actividad del sistema inmune en el sistema nervioso central. Su detección apoya el diagnóstico de EM.
+
+    </p>
+  </div>
+</div>
+
+  <!-- ==========================
+       CUADROS DE IMÁGENES
+  =========================== -->
+  <div class="row text-center mt-5 animate-fade-up">
+
+    <div class="col-md-6 mb-4">
+      <div class="card cuadro-img shadow-sm border-0 h-100">
+        <div class="card-body">
+          <img 
+            src="{% static 'img/sobre_em/diagnostico/imagenelogia1.jpg' %}"
+            alt="Lesiones cerebrales"
+            class="img-fluid rounded diagnostico-img"
+          >
+          <p class="mt-3 text-muted">Lesiones activas observadas en Resonancia Magnética</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card cuadro-img shadow-sm border-0 h-100">
+        <div class="card-body">
+          <img 
+            src="{% static 'img/sobre_em/diagnostico/resultadopunsion.jpg' %}"
+            alt="Resultado Punción Lumbar"
+            class="img-fluid rounded diagnostico-img"
+          >
+          <p class="mt-3 text-muted">Comparativa de resultado normal y con Esclerosis Múltiple</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <hr class="my-5">
+
+  <!-- ==========================
+       SECCIÓN FINAL
+  =========================== -->
+  <h4 class="text-center subtitulo-final mt-4 animate-fade-up">
+    ¿Pueden pedirme otros exámenes?
+  </h4>
+
+  <p class="intro-text animate-fade-up text-center">
+    En algunos casos, se solicitan estudios adicionales para descartar otras patologías o confirmar la evolución
+    de la enfermedad, como análisis de sangre, potenciales evocados visuales o pruebas inmunológicas.
+    La decisión de cada examen depende del criterio del neurólogo y la presentación clínica de cada paciente.
+  </p>
+
+</section>
+
+<!-- ==========================
+     ESTILOS LOCALES
+=========================== -->
+<style>
+  .imagen-card {
+  background: #ffffffdd;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+  .diagnostico-section {
+    background: linear-gradient(to bottom, #E6E0C5, #D9D3B3);
+    border-radius: 20px;
+    padding: 50px;
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+  }
+
+  .subtitulo {
+    color: #3F7F76;
+    font-weight: 700;
+  }
+
+  .diagnostico-img {
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  .diagnostico-img:hover {
+    transform: scale(1.05);
+  }
+
+  .intro-text {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #333;
+  }
+</style>
+
+{% endblock %}

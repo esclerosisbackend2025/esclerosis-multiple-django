@@ -1,0 +1,219 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+{% block content %}
+
+<!-- ===========================
+     CONTENEDOR PRINCIPAL
+=========================== -->
+<section class="contacto-fondo">
+
+    <div class="contacto-overlay"></div>
+
+    <div class="container py-5 contenido-contacto">
+
+        <div class="row align-items-center">
+
+            <!-- ===========================
+                 COLUMNA IZQUIERDA (TEXTO)
+            ============================ -->
+            <div class="col-md-6 text-white mb-5 mb-md-0">
+
+                <h2 class="fw-bold mb-4" style="color: rgb(255, 255, 255);">Ponte en contacto con nosotros</h2>
+
+                <p class="mb-2">
+                    Estamos en:
+                </p>
+
+                <p class="fw-semibold">
+                    Centro de Usos Múltiples Lodran<br>
+                    Avda Lodran, 53,<br>
+                    334455 Miyasaki, Astora
+                </p>
+
+                <p class="mb-1">
+                    <strong>Correo:</strong> contacto@esclerosismultiple.cl
+                </p>
+
+                <p class="mb-4">
+                    <strong>Teléfono:</strong> +56 2 1234 5678
+                </p>
+
+                <p class="small opacity-75">
+                    ¡Contáctanos! Responderemos lunes a viernes de 09:00 a 17:00 hrs.
+                </p>
+
+            </div>
+
+            <!-- ===========================
+                 COLUMNA DERECHA (FORM)
+            ============================ -->
+            <div class="col-md-6">
+
+                <form method="post" class="contacto-form">
+                    {% csrf_token %}
+
+                    <!-- Campo Nombre -->
+                    <div class="mb-3">
+                        <label for="{{ form.nombre.id_for_label }}" class="form-label text-white fw-semibold">
+                            Nombre completo
+                        </label>
+                        {{ form.nombre }}
+                        {% for error in form.nombre.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Campo Email -->
+                    <div class="mb-3">
+                        <label for="{{ form.email.id_for_label }}" class="form-label text-white fw-semibold">
+                            Correo electrónico
+                        </label>
+                        {{ form.email }}
+                        {% for error in form.email.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Campo Mensaje -->
+                    <div class="mb-3">
+                        <label for="{{ form.mensaje.id_for_label }}" class="form-label text-white fw-semibold">
+                            Mensaje o solicitud
+                        </label>
+                        {{ form.mensaje }}
+                        {% for error in form.mensaje.errors %}
+                            <div class="text-danger small">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+
+                    <!-- Botón -->
+                    <button class="contacto-btn">
+                        Enviar mensaje
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ===========================
+     SECCIÓN ADMIN (SOLO ADMIN)
+=========================== -->
+
+{% if mensajes_contacto %}
+<section class="container my-5 animate-fade-up">
+    <h3 class="fw-bold mb-3" style="color:#2E6362;">Mensajes recibidos</h3>
+
+    <div class="table-responsive bg-white rounded-3 p-3 shadow-sm">
+        <table class="table table-sm align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Mensaje</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for m in mensajes_contacto %}
+                <tr>
+                    <td>{{ m.fecha_envio|date:"d/m/Y H:i" }}</td>
+                    <td>{{ m.nombre }}</td>
+                    <td>{{ m.email }}</td>
+                    <td style="max-width: 350px;">{{ m.mensaje|truncatechars:150 }}</td>
+
+                    <td class="text-center">
+                        <form action="{% url 'eliminar_mensaje_contacto' m.id %}" method="post"
+                              onsubmit="return confirm('¿Seguro que deseas eliminar este mensaje?');">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-danger">
+                                Eliminar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay mensajes.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endif %}
+
+
+<!-- ===========================
+      ESTILOS
+=========================== -->
+<style>
+
+  .contacto-fondo {
+    position: relative;
+    background-image: url("{% static 'img/contacto/contacto.jpg' %}");
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    padding: 90px 0;
+    border-radius: 20px;
+  }
+
+  .contacto-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 30, 40, 0.58);
+    border-radius: 20px;
+    z-index: 1;
+  }
+
+  .contenido-contacto {
+    position: relative;
+    z-index: 2;
+  }
+
+  .contacto-form {
+    background: rgba(255,255,255,0);
+  }
+
+  .contacto-input {
+    width: 100%;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    border-radius: 14px;
+    border: none;
+    font-size: 1rem;
+    background: rgba(255,255,255,0.95);
+  }
+
+  .contacto-textarea {
+    height: 140px;
+    resize: none;
+  }
+
+  .contacto-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(90deg, #5B9C94, #76BFAF);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    transition: .3s;
+  }
+
+  .contacto-btn:hover {
+    background: linear-gradient(90deg, #76BFAF, #5B9C94);
+    transform: scale(1.02);
+  }
+
+</style>
+
+{% endblock %}

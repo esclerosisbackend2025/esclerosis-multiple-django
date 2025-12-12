@@ -1,0 +1,198 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ----- Registro de administrador ----- -->
+<div class="container my-5 registro-section animate-fade-up" style="max-width: 650px;">
+  <div class="card registro-card shadow-lg border-0">
+    <div class="card-body p-4">
+
+      <!-- ----- Título ----- -->
+      <h2 class="text-center fw-bold titulo-seccion">Registro de Administrador</h2>
+      <p class="text-center texto-intro">
+        Crea una cuenta con permisos administrativos para gestionar el sitio.
+      </p>
+
+      <!-- ----- Mensajes de éxito o error ----- -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- ----- Formulario de registro ----- -->
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        
+        <!-- Errores generales (ej. contraseñas no coinciden) -->
+        {% if form.non_field_errors %}
+          <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors|striptags }}
+          </div>
+        {% endif %}
+
+        <!-- Usuario -->
+        <div class="mb-3">
+          <label for="id_username" class="form-label fw-semibold">{{ form.username.label }}</label>
+          {{ form.username }}
+          {% if form.username.errors %}
+            <div class="text-danger small">{{ form.username.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Correo -->
+        <div class="mb-3">
+          <label for="id_email" class="form-label fw-semibold">{{ form.email.label }}</label>
+          {{ form.email }}
+          {% if form.email.errors %}
+            <div class="text-danger small">{{ form.email.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- CAMBIO: Añadido campo RUT (heredado de CustomUserCreationForm) -->
+        <div class="mb-3">
+          <label for="id_rut" class="form-label fw-semibold">{{ form.rut.label }}</label>
+          {{ form.rut }}
+          {% if form.rut.errors %}
+            <div class="text-danger small">{{ form.rut.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Contraseña -->
+        <div class="mb-3">
+          <label for="id_password1" class="form-label fw-semibold">{{ form.password1.label }}</label>
+          {{ form.password1 }}
+          {% if form.password1.errors %}
+            <div class="text-danger small">{{ form.password1.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- Confirmar contraseña -->
+        <div class="mb-3">
+          <label for="id_password2" class="form-label fw-semibold">{{ form.password2.label }}</label>
+          {{ form.password2 }}
+          {% if form.password2.errors %}
+            <div class="text-danger small">{{ form.password2.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- CAMBIO: Añadido campo Clave Secreta -->
+        <div class="mb-3">
+          <label for="id_admin_key" class="form-label fw-semibold">{{ form.admin_key.label }}</label>
+          {{ form.admin_key }}
+          {% if form.admin_key.help_text %}
+            <small class="form-text text-muted">{{ form.admin_key.help_text }}</small>
+          {% endif %}
+          {% if form.admin_key.errors %}
+            <div class="text-danger small">{{ form.admin_key.errors|striptags }}</div>
+          {% endif %}
+        </div>
+
+        <!-- CAMBIO: Eliminado Checkbox 'is_staff' (ahora es automático) -->
+
+        <!-- Botón -->
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-hero-calida px-4 py-2 shadow-sm">
+            Registrar administrador
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ----- Estilo ----- -->
+<style>
+  /* ----- Fondo ----- */
+  .registro-section {
+    background: linear-gradient(to bottom, #E6E0C5 0%, #D9D3B3 100%);
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    padding: 40px 20px;
+  }
+
+  /* ----- Tarjeta ----- */
+  .registro-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 18px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  }
+
+  /* ----- Título y texto ----- */
+  .titulo-seccion {
+    color: #2E6362;
+    margin-bottom: 20px;
+  }
+
+  .texto-intro {
+    color: #444;
+    margin-bottom: 25px;
+  }
+
+  /* ----- Formulario ----- */
+  .form-label {
+    color: #2E6362;
+  }
+
+  /* Estilos aplicados por .form-control (que ya definimos en forms.py) */
+  .form-control {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    padding: 8px 10px;
+  }
+
+  .form-control:focus {
+    border-color: #6AB7B9;
+    box-shadow: 0 0 6px rgba(106,183,185,0.3);
+  }
+  
+  /* Asegura que el texto de ayuda se vea bien */
+  .form-text {
+      font-size: 0.875em;
+      display: block;
+      margin-top: .25rem;
+  }
+
+  /* ----- Botón ----- */
+  .btn-hero-calida {
+    background-color: #E67E22;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-hero-calida:hover {
+    background-color: #CF6916;
+    transform: translateY(-2px);
+  }
+
+  /* ----- Animación ----- */
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ----- Adaptación móvil ----- */
+  @media (max-width: 768px) {
+    .registro-section {
+      padding: 25px 15px;
+    }
+  }
+</style>
+
+{% endblock %}

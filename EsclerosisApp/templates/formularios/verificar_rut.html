@@ -1,0 +1,118 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container my-5 verificar-rut-section animate-fade-up" style="max-width: 500px;">
+  <div class="card shadow-lg border-0 form-card">
+    <div class="card-body p-4">
+
+      <!-- -------------------- Título -------------------- -->
+      <h2 class="text-center fw-bold titulo-seccion">Verificar RUT</h2>
+      <p class="text-center texto-intro">
+        Ingresa tu RUT para confirmar que eres el autor del testimonio antes de modificar o eliminarlo.
+      </p>
+
+      <!-- -------------------- Mensajes -------------------- -->
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- -------------------- Formulario -------------------- -->
+      <form method="POST" novalidate>
+        {% csrf_token %}
+        <div class="mt-3">
+          <label for="rut" class="form-label fw-semibold">RUT</label>
+          <input type="text" name="rut" id="rut" class="form-control" placeholder="Ejemplo: 12.345.678-K" required>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-hero-calida px-4 py-2 shadow-sm">
+            Verificar
+          </button>
+        </div>
+      </form>
+
+      <p class="text-center text-muted small mt-3 mb-0">
+        Tu RUT se usa solo para validar la autoría del testimonio.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------- Estilos -------------------- -->
+<style>
+  .verificar-rut-section {
+    background: linear-gradient(to bottom, #E6E0C5 0%, #D9D3B3 100%);
+    border-radius: 20px;
+    box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+    padding: 40px 20px;
+  }
+
+  .form-card {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: 18px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+    margin-bottom: 15px;
+  }
+
+  .texto-intro {
+    color: #444;
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    color: #2E6362;
+  }
+
+  .form-control {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    padding: 8px 10px;
+  }
+
+  .form-control:focus {
+    border-color: #6AB7B9;
+    box-shadow: 0 0 6px rgba(106,183,185,0.3);
+  }
+
+  .btn-hero-calida {
+    background-color: #E67E22;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: all 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .btn-hero-calida:hover {
+    background-color: #CF6916;
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(230, 126, 34, 0.6);
+  }
+
+  .animate-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+{% endblock %}

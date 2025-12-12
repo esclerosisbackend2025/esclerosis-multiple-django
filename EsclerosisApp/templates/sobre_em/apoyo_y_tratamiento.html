@@ -1,0 +1,136 @@
+{% extends 'layout_esclerosis.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="container py-5 apoyo-section animate-fade-up">
+
+  <h2 class="fw-bold mb-4 titulo-seccion text-center">Apoyo y Tratamiento</h2>
+
+  <!-- Introducción -->
+  <p class="texto-principal">
+    Los tratamientos actuales buscan reducir la progresión de la Esclerosis Múltiple (EM) y mejorar el bienestar 
+    físico y emocional de quienes la padecen. Esto incluye terapias farmacológicas, rehabilitación física, apoyo 
+    psicológico y acompañamiento social que permitan mantener la autonomía y calidad de vida.
+  </p>
+
+  <p class="texto-principal mb-5">
+    El enfoque terapéutico es siempre interdisciplinario: médicos, kinesiólogos, terapeutas ocupacionales, 
+    psicólogos y familiares trabajan en conjunto para cubrir las necesidades del paciente de manera integral.
+  </p>
+
+
+  <!-- TARJETAS -->
+  <div class="row g-4">
+
+    <!-- Terapia farmacológica -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-apoyo h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/tratamiento/farmacologico_tratamiento.jpg' %}"
+               class="img-fluid rounded img-apoyo" alt="Terapia farmacológica">
+          <h4 class="mt-3 subtitulo">Terapia Farmacológica</h4>
+          <p class="texto-card">
+            Utiliza medicamentos que regulan la actividad del sistema inmune para reducir inflamación y 
+            disminuir la aparición de brotes. La elección del tratamiento depende del tipo de EM y la evaluación 
+            del neurólogo.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fisioterapia -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-apoyo h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/tratamiento/fisioterapia_em.jpg' %}"
+               class="img-fluid rounded img-apoyo" alt="Fisioterapia en EM">
+          <h4 class="mt-3 subtitulo">Fisioterapia y Rehabilitación</h4>
+          <p class="texto-card">
+            Mejora movilidad, equilibrio y fuerza muscular. La rehabilitación ayuda a prevenir caídas, mantener
+            la independencia y combatir la fatiga, uno de los síntomas más comunes de la EM.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Apoyo psicológico -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-apoyo h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/tratamiento/apoyo_psicologico_em.jpg' %}"
+               class="img-fluid rounded img-apoyo" alt="Apoyo psicológico EM">
+          <h4 class="mt-3 subtitulo">Apoyo Psicológico</h4>
+          <p class="texto-card">
+            Ayuda a manejar estrés, ansiedad y cambios emocionales asociados a la enfermedad. La psicoterapia 
+            fortalece la adaptación y mejora la calidad de vida a largo plazo.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acompañamiento familiar -->
+    <div class="col-md-6 animate-fade-up">
+      <div class="card shadow-sm border-0 tarjeta-apoyo h-100">
+        <div class="card-body text-center">
+          <img src="{% static 'img/tratamiento/acompanamiento_familiar_em.jpg' %}"
+               class="img-fluid rounded img-apoyo" alt="Acompañamiento familiar EM">
+          <h4 class="mt-3 subtitulo">Acompañamiento Familiar</h4>
+          <p class="texto-card">
+            La familia es clave en el proceso terapéutico: brinda apoyo emocional, facilita tareas cotidianas 
+            y motiva al paciente a mantener hábitos saludables y seguir sus tratamientos.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .apoyo-section {
+    background: linear-gradient(to bottom, #E6E0C5, #D9D3B3);
+    border-radius: 20px;
+    padding: 50px;
+  }
+
+  .titulo-seccion {
+    color: #2E6362;
+  }
+
+  .texto-principal {
+    font-size: 17px;
+    color: #2B2B2B;
+    line-height: 1.8;
+    text-align: justify;
+  }
+
+  .tarjeta-apoyo {
+    background: #ffffffdd;
+    border-radius: 15px;
+    padding: 15px;
+  }
+
+  .img-apoyo {
+    border-radius: 12px;
+    width: 100%;
+    transition: transform .3s;
+  }
+
+  .img-apoyo:hover {
+    transform: scale(1.05);
+  }
+
+  .subtitulo {
+    color: #3F7F76;
+    font-weight: 700;
+  }
+
+  .texto-card {
+    color: #444;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+</style>
+
+{% endblock %}
