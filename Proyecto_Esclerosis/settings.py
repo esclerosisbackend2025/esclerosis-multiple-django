@@ -17,6 +17,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
 ]
+
 # --- Aplicaciones instaladas ---
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -26,8 +27,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'EsclerosisApp.apps.EsclerosisappConfig',
-
-
 ]
 
 # --- Middleware ---
@@ -41,7 +40,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
 
 ROOT_URLCONF = 'Proyecto_Esclerosis.urls'
 
@@ -90,6 +88,9 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "EsclerosisApp" / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# 🔥 ESTA ES LA ÚNICA LÍNEA NUEVA (NO TOCA NADA MÁS)
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- Configuración de correo (SMTP Gmail) ---
@@ -104,6 +105,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 #--Login redireccion--
 LOGIN_REDIRECT_URL = 'inicio'
 ADMIN_REGISTRATION_KEY = 'Esclerosis@dmin2025'
+
 # --- Archivos Multimedia (para imágenes subidas por usuarios) ---
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
