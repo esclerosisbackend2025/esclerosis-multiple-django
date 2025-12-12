@@ -88,7 +88,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "EsclerosisApp" / "static"]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# :fire: ESTA ES LA ÚNICA LÍNEA NUEVA (NO TOCA NADA MÁS)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
