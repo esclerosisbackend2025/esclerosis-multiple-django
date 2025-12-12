@@ -10,8 +10,14 @@ import os
 
 # --- Configuración base ---
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = 'django-insecure-%xp&ai76wwhpd@v#ewk9q73y+9q+&j(j#2k*(7#a^odp3o=%34'
+
+SECRET_KEY = os.environ.get(
+    'SECRET_KEY',
+    'django-insecure-%xp&ai76wwhpd@v#ewk9q73y+9q+&j(j#2k*(7#a^odp3o=%34'
+)
+
 DEBUG = False
+
 ALLOWED_HOSTS = [
     'esclerosis-multiple-django.onrender.com',
     'localhost',
@@ -96,12 +102,15 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "esclerosisbackend2025@gmail.com"
-EMAIL_HOST_PASSWORD = "aenwrggiphntahxh"  # contraseña de aplicación
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 #--Login redireccion--
 LOGIN_REDIRECT_URL = 'inicio'
-ADMIN_REGISTRATION_KEY = 'Esclerosis@dmin2025'
+ADMIN_REGISTRATION_KEY = os.environ.get(
+    'ADMIN_REGISTRATION_KEY',
+    'Esclerosis@dmin2025'
+)
 
 # --- Archivos Multimedia (para imágenes subidas por usuarios) ---
 MEDIA_URL = '/media/'
