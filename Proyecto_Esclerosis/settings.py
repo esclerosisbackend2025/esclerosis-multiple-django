@@ -11,9 +11,12 @@ import os
 # --- Configuración base ---
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-%xp&ai76wwhpd@v#ewk9q73y+9q+&j(j#2k*(7#a^odp3o=%34'
-DEBUG = True
-ALLOWED_HOSTS = []
-
+DEBUG = False
+ALLOWED_HOSTS = [
+    'esclerosis-multiple-django.onrender.com',
+    'localhost',
+    '127.0.0.1',
+]
 # --- Aplicaciones instaladas ---
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -29,6 +32,8 @@ INSTALLED_APPS = [
 
 # --- Middleware ---
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +88,7 @@ USE_TZ = True
 # --- Archivos estáticos ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "EsclerosisApp" / "static"]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
